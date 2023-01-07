@@ -1,0 +1,46 @@
+version: "3"
+
+#networks:
+#  internal:
+#    driver: bridge
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 192.168.220.0/28
+
+services:
+  #nginx
+  server:
+    build:
+      context: src/server
+    user: "node"
+    working_dir: /application
+    environment:
+      - NODE_ENV=development
+      #- NODE_ENV=production
+    ports:
+      - "3000:3000"
+    tty: true
+  node:
+    build:
+      context: docker/nodejs
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+      #- NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - "3001:3001"
+    tty: true
+  #nginx
+  nginx_front:
+    build:
+      context: docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/
+#    networks:
+#      - internal
