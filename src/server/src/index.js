@@ -46,7 +46,7 @@ const participantList = [
   {
     id: 333,
     name: 'ОАО Сорна компани',
-    isQualityStandard: false,
+    isQualityStandard: true,
     productionTime: 75,
     warrantyPeriod: 22,
     termsOfPayment: 60,
@@ -66,11 +66,10 @@ const participantList = [
     totalCostFloor: 2475000,
   },
 ];
-//дата начала аукциона (для простоты это время запуска сервера)
-const startTime = new Date().getTime();
+//дата начала аукциона (для простоты это фиксированная дата)
+const startTime = new Date('2023-01-07 18:32:00').getTime();
 //кол-во миллисекунд на ход участника ('эквивалентно 2 минутам)
-// const participantsTurnTime = 2 * 60 * 1000;
-const participantsTurnTime = 3 * 1000;
+const participantsTurnTime = 2 * 60 * 1000;
 
 setInterval(() => {
   //кол-во участников
@@ -78,16 +77,26 @@ setInterval(() => {
   //прошло времени с начала аукциона в миллисекундах
   const timeHasElapsedSinceStartOfAuction = new Date().getTime() - startTime;
   //кол-во ходов участников с начала аукциона
-  const currentStep =
-    Math.floor(timeHasElapsedSinceStartOfAuction / participantsTurnTime) + 1;
+  const currentStep = Math.floor(
+    timeHasElapsedSinceStartOfAuction / participantsTurnTime,
+  );
   //получаем ИД текущего участника аукциона
   const currentParticipantIdx = currentStep % participantCount;
   const currentParticipantId = participantList[currentParticipantIdx].id;
+
+  const timeUntilEndOfTurn =
+    participantsTurnTime -
+    (timeHasElapsedSinceStartOfAuction - currentStep * participantsTurnTime);
+
   io.emit('message', {
+    name: 'Тестовые торги на аппарат ЛОТОС №2033564',
+    startTime,
+    participantsTurnTime,
+    timeUntilEndOfTurn,
     timeHasElapsedSinceStartOfAuction,
     currentStep,
     currentParticipantId,
-    currentDate: new Date().getTime(),
+    currentTime: new Date().getTime(),
     participantList,
   });
 }, 1000);

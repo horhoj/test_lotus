@@ -1,5 +1,25 @@
 .wrap {
   margin: 0 auto;
-  max-width: 1024px;
+}
+
+.header {
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.main {
+  padding: 20px;
+}
+
+.headerLink {
+  text-decoration: none;
+  color: darkslategray;
+  font-size: 20px;
+}
+
+.headerLinkActive {
+  font-weight: 700;
 }
