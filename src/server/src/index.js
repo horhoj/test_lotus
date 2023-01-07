@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
   });
 });
 
-io.listen(3000);
+io.listen(7777);
 
 //данные участников
 const participantList = [
