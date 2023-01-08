@@ -6,13 +6,15 @@ import styles from './MainPage.module.scss';
 
 const SERVER_MSG_ID = 'message';
 
+const HOST = process.env.REACT_APP_HOST || 'localhost:7777';
+
 export const MainPage: FC = () => {
   const [socket, setSocket] = useState<ReturnType<typeof io> | null>(null);
   const [auctionData, setAuctionData] = useState<AuctionData | null>(null);
   const [socketError, setSocketError] = useState<string | null>(null);
 
   useEffect(() => {
-    const socket = io('localhost:7777');
+    const socket = io(HOST);
 
     socket.on(SERVER_MSG_ID, (msg: AuctionData) => {
       setAuctionData(msg);

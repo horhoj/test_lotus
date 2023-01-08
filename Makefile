@@ -24,7 +24,7 @@ server-console:
 	docker-compose exec --user $(shell id -u):$(shell id -g)  server sh -c "/bin/bash"
 
 server-dev:
-	cd src/server/src && npm run dev
+	cd src/server/src && yarn && yarn dev
 
 client-dev:
 	export PORT=3001 && export BROWSER=none && yarn start
